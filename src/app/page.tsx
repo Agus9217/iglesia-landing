@@ -1,62 +1,57 @@
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import imgHero from '../app/assets/iglesia-hero-image.jpeg'
 
 export default function HomePage() {
   return (
-    <Box
+    <Container
+      maxW={'1920px'}
+      px={{ base: '0.5rem', md: '2rem' }}
       position={'relative'}
       top={'5rem'}
       borderWidth={'thin'}
-      borderColor={'red'}
-      maxW={'90%'}
-      mx={'auto'}
+      borderColor={'cyan'}
     >
       <Box>
         <Box
-          mx={'auto'}
           as={Image}
           src={imgHero}
-          alt={'Portada iglesia barrio nuevo'}
+          w={'100%'}
+          h={{ base: 'auto', '2xl': '1080px' }}
+          objectFit={'cover'}
           rounded={'2xl'}
-          filter={'brightness(60%)'}
+          filter={'brightness(65%)'}
         />
         <Box
           position={'absolute'}
           top={'50%'}
           left={'50%'}
           transform={'translate(-50%, -50%)'}
+          color={'white'}
+          textShadow={'0 0 20px black'}
+          textAlign={'center'}
           borderWidth={'thin'}
           borderColor={'cyan'}
           maxW={'80%'}
           w={'100%'}
-          textAlign={'center'}
         >
-          <Heading
-            fontSize={{ base: 'xl', md: '7xl', lg: '8xl' }}
-            color={'white'}
-            textShadow={'dark-lg'}
-          >
-            Bienvenidos a nuestra iglesia
+          <Heading>
+            Iglesia Cristiana en Barrio Nuevo
           </Heading>
           <Text
-            maxW={'80%'}
-            color={'white'}
+            maxW={'60%'}
             mx={'auto'}
-            fontSize={'xs'}
-            py={{ base: '0.5rem', md: '2rem' }}
           >
-            lorem ipsum dolor sit amet, consectet lorem ipsum dolor sit am lorem ipsum dolor sit
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, blanditiis quam porro, iure tenetur ipsa magnam aut, dignissimos officia vitae eos laudantium nemo vero nihil vel qui cum dolorem reiciendis!
           </Text>
           <Button
             colorScheme={'yellow'}
-            size={{ base: 'xs', md: 'md' }}
           >
             Ver más
           </Button>
         </Box>
       </Box>
 
-    </Box>
+    </Container>
   );
 }
