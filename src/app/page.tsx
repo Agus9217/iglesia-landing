@@ -35,17 +35,22 @@ export default function HomePage() {
           maxW={'80%'}
           w={'100%'}
         >
-          <Heading>
+          <Heading
+            fontSize={{ base: '2xl', md: '6xl', lg: '8xl' }}
+          >
             Iglesia Cristiana en Barrio Nuevo
           </Heading>
           <Text
-            maxW={'60%'}
+            maxW={{ base: '80%', md: '60%' }}
             mx={'auto'}
+            fontSize={{ base: 'xs', md: 'sm', lg: 'md' }}
+            py={{ base: '0.5rem', md: '2rem' }}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, blanditiis quam porro, iure tenetur ipsa magnam aut, dignissimos officia vitae eos laudantium nemo vero nihil vel qui cum dolorem reiciendis!
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, blanditiis quam porro, iure tenetur ipsa magnam aut
           </Text>
           <Button
             colorScheme={'yellow'}
+            size={{ base: 'xs', md: 'lg' }}
           >
             Ver más
           </Button>
