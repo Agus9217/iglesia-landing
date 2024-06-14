@@ -1,11 +1,17 @@
 'use client'
 
 import { Box, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { NavbarDesktop } from './NavbarDesktop'
 import { NavbarMobile } from './NavbarMobile'
+import { useMotionValueEvent, useScroll } from 'framer-motion'
 
 export const Navbar = () => {
+  const [change, setChange] = useState(0)
+  const { scrollY } = useScroll()
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setChange(latest)
+  })
 
   const display = useBreakpointValue(
     {
@@ -19,25 +25,23 @@ export const Navbar = () => {
       as={'header'}
       backdropFilter={'blur(8px)'}
       position={'fixed'}
-      borderWidth={'thin'}
-      borderColor={'cyan'}
       w={'100%'}
       minH={'60px'}
       alignItems={'center'}
       justifyContent={'space-between'}
       px={{ base: 2, md: 8 }}
       fontSize={{ base: 'md', md: 'lg' }}
+      color={change >= 60 ? 'white' : 'black'}
       zIndex={1000}
+      shadow={'base'}
     >
       <Box
         maxW={{ base: '140px', md: '300px' }}
-        borderWidth={'thin'}
-        borderColor={'red'}
       >
         <Text
           fontWeight={'bold'}
         >
-          Iglesia Cristiana en <Text as={'span'} color={'blue.500'}>Barrio Nuevo</Text>
+          Iglesia Cristiana en <Text as={'span'} color={change >= 60 ? 'yellow.400' : 'blue.500'}>Barrio Nuevo</Text>
         </Text>
       </Box>
       <NavbarDesktop display={display} />
