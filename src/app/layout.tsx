@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Providers from "./providers";
 import { Navbar } from "./components";
-
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Iglesia Cristiana en Barrio Nuevo",
