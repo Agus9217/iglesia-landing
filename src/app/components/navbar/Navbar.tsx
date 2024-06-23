@@ -23,7 +23,7 @@ export const Navbar = () => {
   return (
     <Flex
       as={'header'}
-      backdropFilter={'blur(8px)'}
+      backdropFilter={`blur(8px) ${change >= 60 ? 'brightness(60%)' : ''}`}
       position={'fixed'}
       w={'100%'}
       minH={'60px'}
@@ -45,7 +45,7 @@ export const Navbar = () => {
         </Text>
       </Box>
       <NavbarDesktop display={display} />
-      <NavbarMobile display={display} />
+      <NavbarMobile display={display} change={change} />
     </Flex>
   )
 }

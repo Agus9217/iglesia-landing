@@ -4,10 +4,10 @@ import { navItem } from './nav-item'
 
 interface Props {
   display: string | undefined
+  change: number | undefined
 }
 
-export const NavbarMobile = ({ display }: Props) => {
-
+export const NavbarMobile = ({ display, change }: Props) => {
 
   return (
     <Box
@@ -15,16 +15,27 @@ export const NavbarMobile = ({ display }: Props) => {
     >
       <Menu
         autoSelect={false}
+        isLazy
       >
         <MenuButton
           as={IconButton}
-          icon={<IoMenu />}
+          icon={<IoMenu color={(change || 0) >= 60 ? 'white' : ''} />}
           variant={'outline'}
+          aria-label='Options'
+          _active={{
+            style: 'none'
+          }}
+          _hover={{
+            style: 'none'
+          }}
         />
         <MenuList>
           {
             navItem.map(({ label }) => (
-              <MenuItem key={label} >
+              <MenuItem
+                key={label}
+                color={'black'}
+              >
                 {label}
               </MenuItem>
             ))

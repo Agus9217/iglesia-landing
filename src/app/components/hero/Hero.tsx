@@ -4,7 +4,10 @@ import imgHero from '../../assets/iglesia-hero-image.jpeg'
 export const Hero = () => {
 
   return (
-    <Box>
+    <Box
+      position={'relative'}
+      top={'5rem'}
+    >
       <Box
         as={Image}
         src={imgHero}
@@ -42,7 +45,7 @@ export const Hero = () => {
         </Text>
         <Button
           colorScheme={'yellow'}
-          size={{ base: 'xs', md: 'lg' }}
+          size={{ base: 'sm', md: 'lg' }}
         >
           Ver más
         </Button>
