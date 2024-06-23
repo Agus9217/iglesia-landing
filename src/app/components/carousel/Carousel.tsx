@@ -72,8 +72,9 @@ export const Carousel = () => {
     >
       <Slider {...settings}>
         {
-          images.map((images) => (
+          images.map((images, index) => (
             <Box
+              key={index}
               as={Image}
               src={images}
               alt={'carousel de la iglesia'}
