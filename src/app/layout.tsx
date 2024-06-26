@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "./components";
 import Providers from "./providers";
+import { Container } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   title: "Iglesia Cristiana en Barrio Nuevo",
@@ -18,7 +19,12 @@ export default function RootLayout({
       <body>
         <Providers>
           <Navbar />
-          {children}
+          <Container
+            maxW={'1920px'}
+            px={{ base: '0.8rem', md: '2rem' }}
+          >
+            {children}
+          </Container>
         </Providers>
       </body>
     </html>

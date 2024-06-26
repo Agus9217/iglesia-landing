@@ -3,10 +3,7 @@ import { Carousel, Cronograma, Eventos, Footer, Hero, Ministerios } from "./comp
 
 export default function HomePage() {
   return (
-    <Container
-      maxW={'1920px'}
-      px={{ base: '0.8rem', md: '2rem' }}
-    >
+    <>
       <Hero />
       <Box
         mt={{ base: '7.3rem', md: '9rem' }}
@@ -32,6 +29,6 @@ export default function HomePage() {
       <Ministerios />
       <Eventos />
       <Footer />
-    </Container>
+    </>
   );
 }
