@@ -15,6 +15,7 @@ export default function HomePage() {
       >
         <Heading
           fontSize={{ base: '2xl', md: '4xl' }}
+          py={{ base: 2, md: 8 }}
         >
           Nuestro propósito
         </Heading>

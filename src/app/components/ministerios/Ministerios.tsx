@@ -15,17 +15,19 @@ export const Ministerios = () => {
     <Box>
       <Heading
         fontSize={{ base: '2xl', md: '4xl' }}
-        py={2}
+        py={{ base: 2, md: 8 }}
       >
         Ministerios
       </Heading>
       <Stack
         mt={'3rem'}
+        mx={'auto'}
         wrap={'wrap'}
         direction={'row'}
         alignItems={'center'}
         justifyContent={'center'}
         gap={8}
+        maxW={'1300px'}
       >
         <Flex
           direction={'column'}

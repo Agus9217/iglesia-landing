@@ -12,6 +12,7 @@ export const Cronograma = () => {
     >
       <Heading
         fontSize={{ base: '2xl', md: '4xl' }}
+        py={{ base: 2, md: 8 }}
       >
         Nuestro cronograma semanal
       </Heading>
