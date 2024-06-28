@@ -80,7 +80,7 @@ export const Carousel = () => {
               alt={'carousel de la iglesia'}
               rounded={'3xl'}
               w={500}
-              h={200}
+              h={500}
               objectFit={'cover'}
               px={'0.5rem'}
             />
