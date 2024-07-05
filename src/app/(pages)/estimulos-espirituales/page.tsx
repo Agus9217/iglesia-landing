@@ -1,12 +1,17 @@
 'use client'
 
-import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
 import Image from "next/image";
 import estimulosImg from '../../assets/estimulos-espirituales.jpeg'
 import useSWR from 'swr'
+import { useRef, useState } from "react";
 
 interface Media {
+  thumbnail_url: string;
+  permalink: string;
+  caption: string;
   media_url: string;
+  media_type: string;
   id: string;
 }
 
@@ -19,12 +24,36 @@ const URL = process.env.NEXT_PUBLIC_URL_INSTAGRAM
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function EstimulosPage() {
-  const { data, error } = useSWR<ApiResponse | undefined>(URL, fetcher);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const selectedRef = useRef<HTMLVideoElement | null>(null);
+  const { data, error, isLoading } = useSWR<ApiResponse | undefined>(URL, fetcher);
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  const handleMediaClick = (index: number, event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    const currentSelectedVideo = selectedRef.current;
 
-  console.log(data)
+    if (currentSelectedVideo) {
+      // Verificar si se hizo clic en el mismo video que ya está reproduciéndose
+      if (selectedIdx === index) {
+        if (!currentSelectedVideo.paused) {
+          currentSelectedVideo.pause();
+          return; // Salir de la función si se pausó el video
+        }
+      } else {
+        // Pausar el video actual si no es el mismo que el que se está seleccionando
+        currentSelectedVideo.pause();
+      }
+    }
+
+    setSelectedIdx(index); // Establecer el índice seleccionado al hacer clic
+    // Mantener la referencia al video dentro del elemento seleccionado
+    selectedRef.current = event.currentTarget.querySelector('video');
+
+    // Reproducir el video seleccionado si existe
+    if (selectedRef.current) {
+      selectedRef.current.play();
+    }
+  };
+
 
   return (
     <>
@@ -100,16 +129,54 @@ export default function EstimulosPage() {
           fontSize={{ base: '2xl', md: '4xl' }}
           py={{ base: 2, md: 8 }}
         >
-          Nuestro propósito como ministerio
+
         </Heading>
-        {data.data.map(media => (
-          <li key={media.id}>
-            <video width="320" height="240" controls>
-              <source src={media.media_url} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </li>
-        ))}
+        {isLoading ? (
+          <div>Cargando...</div>
+        ) : (
+          data && data.data ? (
+            <UnorderedList
+              display={'flex'}
+              flexWrap={'wrap'}
+              styleType={'none'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              gap={'10px'}
+            >
+              {data.data.map((media, index) => (
+
+                <ListItem key={media.id} onClick={(e) => handleMediaClick(index, e)}>
+                  {media.media_type === 'VIDEO' ? (
+                    <Flex
+                      py={2}
+                      direction={'column'}
+                      maxW={320}
+                      gap={5}
+                    >
+                      <video id={`video-${index}`} width="320" height="240" poster={media.thumbnail_url} >
+                        <source src={media.media_url} type="video/mp4" />
+                      </video>
+                      <Text>{media.caption}</Text>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      py={2}
+                      direction={'column'}
+                      maxW={320}
+                      gap={5}
+                    >
+                      <Image src={media.media_url} alt={media.caption} width={320} height={240} />
+                      <Text>{media.caption}</Text>
+                    </Flex>
+                  )}
+
+                </ListItem>
+              ))}
+            </UnorderedList>
+          ) : (
+            <div>Error: {error}.</div>
+          )
+        )}
       </Flex>
     </>
   )
