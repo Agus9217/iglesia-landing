@@ -1,5 +1,5 @@
-import { Box, Container, Heading, Text } from "@chakra-ui/react";
-import { Carousel, Cronograma, Eventos, Footer, Hero, Ministerios } from "./components";
+import { Box, Heading, Text } from "@chakra-ui/react";
+import { Carousel, Cronograma, Eventos, Hero, Ministerios } from "./components";
 
 export default function HomePage() {
   return (
@@ -28,7 +28,6 @@ export default function HomePage() {
       <Cronograma />
       <Ministerios />
       <Eventos />
-      <Footer />
     </>
   );
 }

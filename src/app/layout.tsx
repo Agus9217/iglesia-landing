@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "./components";
+import { Footer, Navbar } from "./components";
 import Providers from "./providers";
 import { Container } from "@chakra-ui/react";
 
@@ -25,6 +25,7 @@ export default function RootLayout({
           >
             {children}
           </Container>
+          <Footer />
         </Providers>
       </body>
     </html>
