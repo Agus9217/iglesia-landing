@@ -3,7 +3,7 @@
 import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import estimulosImg from '../../assets/estimulos-espirituales.jpeg'
-import useSWR from "swr";
+import useSWR from 'swr'
 
 interface Media {
   media_url: string;
@@ -16,10 +16,10 @@ interface ApiResponse {
 const URL = process.env.NEXT_PUBLIC_URL_INSTAGRAM
 
 // Define la función fetcher
-const fetcher = (url: string): Promise<ApiResponse> => fetch(url).then(res => res.json());
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function EstimulosPage() {
-  const { data, error } = useSWR<ApiResponse>(URL, fetcher);
+  const { data, error } = useSWR<ApiResponse | undefined>(URL, fetcher);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
@@ -66,8 +66,8 @@ export default function EstimulosPage() {
             maxW={{ base: '90%', md: '70%' }}
             mx={{ base: 'auto', md: 0 }}
           >
-            "Y consideremos como estimularnos unos
-            a otros al Amor y las Buenas obras"
+            Y consideremos como estimularnos unos
+            a otros al Amor y las Buenas obras
             Hebreos 10:24
           </Text>
           <Flex
