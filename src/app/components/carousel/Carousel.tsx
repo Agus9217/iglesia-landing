@@ -3,29 +3,17 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick'
-import imgCarousel1 from '../../assets/iglesia-carousel-1.jpg'
-import imgCarousel2 from '../../assets/iglesia-carousel-2.jpg'
-import imgCarousel3 from '../../assets/iglesia-carousel-3.jpg'
-import imgCarousel4 from '../../assets/iglesia-carousel-4.jpg'
-import imgCarousel5 from '../../assets/iglesia-carousel-5.jpg'
-import imgCarousel6 from '../../assets/iglesia-carousel-6.jpg'
-import imgCarousel7 from '../../assets/iglesia-carousel-7.jpg'
-import imgCarousel8 from '../../assets/iglesia-carousel-8.jpg'
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { Box } from "@chakra-ui/react";
 
-const images = [
-  imgCarousel1,
-  imgCarousel2,
-  imgCarousel3,
-  imgCarousel4,
-  imgCarousel5,
-  imgCarousel6,
-  imgCarousel7,
-  imgCarousel8
-]
+interface Props {
+  img: [] | StaticImageData[],
+  alt: string,
+  w: number | string,
+  h: number | string
+}
 
-export const Carousel = () => {
+export const Carousel = ({ img, alt, w, h }: Props) => {
 
   const settings = {
     infinite: true,
@@ -66,24 +54,23 @@ export const Carousel = () => {
   return (
     <Box
       className="slider-container"
-      width={'100%'}
+      width={'95%'}
       mx={'auto'}
       overflowX={'hidden'}
     >
       <Slider {...settings}>
         {
-          images.map((images, index) => (
+          img.map((images, index) => (
             <Box
               key={index}
               as={Image}
               src={images}
-              alt={'carousel de la iglesia'}
+              alt={alt}
               rounded={'3xl'}
-              w={500}
-              h={500}
+              w={w}
+              h={h}
               objectFit={'cover'}
-              px={'0.5rem'}
-            />
+              px={'0.5rem'} />
           ))
         }
       </Slider>

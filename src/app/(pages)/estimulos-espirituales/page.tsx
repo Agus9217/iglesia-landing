@@ -1,10 +1,12 @@
 'use client'
 
-import { Box, Button, Flex, Heading, ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Flex, Heading, ListItem, Spinner, Stack, Text, UnorderedList } from "@chakra-ui/react";
 import Image from "next/image";
 import estimulosImg from '../../assets/estimulos-espirituales.jpeg'
 import useSWR from 'swr'
 import { useRef, useState } from "react";
+import Flicking from "@egjs/react-flicking";
+import "@egjs/react-flicking/dist/flicking.css";
 
 interface Media {
   thumbnail_url: string;
@@ -47,13 +49,14 @@ export default function EstimulosPage() {
     setSelectedIdx(index); // Establecer el índice seleccionado al hacer clic
     // Mantener la referencia al video dentro del elemento seleccionado
     selectedRef.current = event.currentTarget.querySelector('video');
-
+    console.log(selectedRef.current)
     // Reproducir el video seleccionado si existe
     if (selectedRef.current) {
       selectedRef.current.play();
     }
   };
 
+  const videos = data?.data.filter(media => media.media_type === 'VIDEO')
 
   return (
     <>
@@ -75,6 +78,7 @@ export default function EstimulosPage() {
             maxW={{ base: '200px', md: '400px' }}
             h={{ base: '200px', md: '400px' }}
             src={estimulosImg}
+            alt={'Imagen estimulos espirituales'}
           />
         </Flex>
         <Flex
@@ -132,7 +136,11 @@ export default function EstimulosPage() {
 
         </Heading>
         {isLoading ? (
-          <div>Cargando...</div>
+          <Box
+            mx={'auto'}
+          >
+            <Spinner color={'purple'} />
+          </Box>
         ) : (
           data && data.data ? (
             <UnorderedList
@@ -143,33 +151,43 @@ export default function EstimulosPage() {
               justifyContent={'center'}
               gap={'10px'}
             >
-              {data.data.map((media, index) => (
-
+              {videos?.map((media, index) => (
                 <ListItem key={media.id} onClick={(e) => handleMediaClick(index, e)}>
-                  {media.media_type === 'VIDEO' ? (
-                    <Flex
-                      py={2}
-                      direction={'column'}
-                      maxW={320}
-                      gap={5}
+                  <Flicking
+                    align="prev"
+                    circular={true}
+                    onMoveEnd={e => {
+                      console.log(e);
+                    }}
+                  >
+                    <Card
+                      maxW={'xs'}
+                      h={450}
                     >
-                      <video id={`video-${index}`} width="320" height="240" poster={media.thumbnail_url} >
-                        <source src={media.media_url} type="video/mp4" />
-                      </video>
-                      <Text>{media.caption}</Text>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      py={2}
-                      direction={'column'}
-                      maxW={320}
-                      gap={5}
-                    >
-                      <Image src={media.media_url} alt={media.caption} width={320} height={240} />
-                      <Text>{media.caption}</Text>
-                    </Flex>
-                  )}
+                      <CardBody>
+                        <Box
+                          h={250}
+                          display={'flex'}
+                          justifyContent={'center'}
+                        >
+                          <Box
+                            h={'100%'}
+                            as={'video'}
+                            src={media.media_url}
+                            poster={media.thumbnail_url}
+                          />
+                        </Box>
 
+                        <Stack mt='6' spacing='3'>
+                          <Text
+                            noOfLines={4}
+                          >
+                            {media.caption}
+                          </Text>
+                        </Stack>
+                      </CardBody>
+                    </Card>
+                  </Flicking>
                 </ListItem>
               ))}
             </UnorderedList>
@@ -177,7 +195,7 @@ export default function EstimulosPage() {
             <div>Error: {error}.</div>
           )
         )}
-      </Flex>
+      </Flex >
     </>
   )
 }
