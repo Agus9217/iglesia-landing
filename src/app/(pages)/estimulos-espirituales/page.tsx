@@ -5,8 +5,7 @@ import Image from "next/image";
 import estimulosImg from '../../assets/estimulos-espirituales.jpeg'
 import useSWR from 'swr'
 import { useRef, useState } from "react";
-import Flicking from "@egjs/react-flicking";
-import "@egjs/react-flicking/dist/flicking.css";
+import Youtube from "@/app/components/youtube/Youtube";
 
 interface Media {
   thumbnail_url: string;
@@ -22,7 +21,6 @@ interface ApiResponse {
 }
 const URL = process.env.NEXT_PUBLIC_URL_INSTAGRAM
 
-// Define la función fetcher
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function EstimulosPage() {
@@ -34,23 +32,19 @@ export default function EstimulosPage() {
     const currentSelectedVideo = selectedRef.current;
 
     if (currentSelectedVideo) {
-      // Verificar si se hizo clic en el mismo video que ya está reproduciéndose
       if (selectedIdx === index) {
         if (!currentSelectedVideo.paused) {
           currentSelectedVideo.pause();
-          return; // Salir de la función si se pausó el video
+          return; 
         }
       } else {
-        // Pausar el video actual si no es el mismo que el que se está seleccionando
         currentSelectedVideo.pause();
       }
     }
 
-    setSelectedIdx(index); // Establecer el índice seleccionado al hacer clic
-    // Mantener la referencia al video dentro del elemento seleccionado
+    setSelectedIdx(index); 
     selectedRef.current = event.currentTarget.querySelector('video');
     console.log(selectedRef.current)
-    // Reproducir el video seleccionado si existe
     if (selectedRef.current) {
       selectedRef.current.play();
     }
@@ -122,6 +116,14 @@ export default function EstimulosPage() {
         </Flex>
 
       </Stack>
+      <Stack
+        mt={'9rem'}
+        borderWidth={'thin'}
+        borderColor={'cyan'}
+        w={'100%'}
+      >
+        <Youtube />
+      </Stack>
       <Flex
         mt={'9rem'}
         borderWidth={'thin'}
@@ -145,7 +147,7 @@ export default function EstimulosPage() {
           data && data.data ? (
             <UnorderedList
               display={'flex'}
-              flexWrap={'wrap'}
+              overflowX={'hidden'}
               styleType={'none'}
               alignItems={'center'}
               justifyContent={'center'}
@@ -153,41 +155,33 @@ export default function EstimulosPage() {
             >
               {videos?.map((media, index) => (
                 <ListItem key={media.id} onClick={(e) => handleMediaClick(index, e)}>
-                  <Flicking
-                    align="prev"
-                    circular={true}
-                    onMoveEnd={e => {
-                      console.log(e);
-                    }}
+                  <Card
+                    maxW={'xs'}
+                    h={450}
                   >
-                    <Card
-                      maxW={'xs'}
-                      h={450}
-                    >
-                      <CardBody>
+                    <CardBody>
+                      <Box
+                        h={250}
+                        display={'flex'}
+                        justifyContent={'center'}
+                      >
                         <Box
-                          h={250}
-                          display={'flex'}
-                          justifyContent={'center'}
-                        >
-                          <Box
-                            h={'100%'}
-                            as={'video'}
-                            src={media.media_url}
-                            poster={media.thumbnail_url}
-                          />
-                        </Box>
+                          h={'100%'}
+                          as={'video'}
+                          src={media.media_url}
+                          poster={media.thumbnail_url}
+                        />
+                      </Box>
 
-                        <Stack mt='6' spacing='3'>
-                          <Text
-                            noOfLines={4}
-                          >
-                            {media.caption}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  </Flicking>
+                      <Stack mt='6' spacing='3'>
+                        <Text
+                          noOfLines={4}
+                        >
+                          {media.caption}
+                        </Text>
+                      </Stack>
+                    </CardBody>
+                  </Card>
                 </ListItem>
               ))}
             </UnorderedList>
