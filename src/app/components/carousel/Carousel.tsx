@@ -7,13 +7,14 @@ import Image, { StaticImageData } from "next/image";
 import { Box } from "@chakra-ui/react";
 
 interface Props {
-  img: [] | StaticImageData[],
+  img?: [] | StaticImageData[],
+  video?: []
   alt: string,
   w: number | string,
   h: number | string
 }
 
-export const Carousel = ({ img, alt, w, h }: Props) => {
+export const Carousel = ({ img, alt, w, h, video }: Props) => {
 
   const settings = {
     infinite: true,
@@ -60,7 +61,7 @@ export const Carousel = ({ img, alt, w, h }: Props) => {
     >
       <Slider {...settings}>
         {
-          img.map((images, index) => (
+          img?.map((images, index) => (
             <Box
               key={index}
               as={Image}

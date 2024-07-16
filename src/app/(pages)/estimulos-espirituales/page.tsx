@@ -6,6 +6,7 @@ import estimulosImg from '../../assets/estimulos-espirituales.jpeg'
 import useSWR from 'swr'
 import { useRef, useState } from "react";
 import Youtube from "@/app/components/youtube/Youtube";
+import { motion } from "framer-motion";
 
 interface Media {
   thumbnail_url: string;
@@ -35,14 +36,14 @@ export default function EstimulosPage() {
       if (selectedIdx === index) {
         if (!currentSelectedVideo.paused) {
           currentSelectedVideo.pause();
-          return; 
+          return;
         }
       } else {
         currentSelectedVideo.pause();
       }
     }
 
-    setSelectedIdx(index); 
+    setSelectedIdx(index);
     selectedRef.current = event.currentTarget.querySelector('video');
     console.log(selectedRef.current)
     if (selectedRef.current) {
@@ -50,7 +51,9 @@ export default function EstimulosPage() {
     }
   };
 
-  const videos = data?.data.filter(media => media.media_type === 'VIDEO')
+  const videos = data?.data.filter(media => media.media_type === 'VIDEO').slice(0, 4)
+
+  const ButtonMotion = motion(Button)
 
   return (
     <>
@@ -73,6 +76,7 @@ export default function EstimulosPage() {
             h={{ base: '200px', md: '400px' }}
             src={estimulosImg}
             alt={'Imagen estimulos espirituales'}
+            priority={true}
           />
         </Flex>
         <Flex
@@ -147,7 +151,6 @@ export default function EstimulosPage() {
           data && data.data ? (
             <UnorderedList
               display={'flex'}
-              overflowX={'hidden'}
               styleType={'none'}
               alignItems={'center'}
               justifyContent={'center'}
@@ -156,8 +159,7 @@ export default function EstimulosPage() {
               {videos?.map((media, index) => (
                 <ListItem key={media.id} onClick={(e) => handleMediaClick(index, e)}>
                   <Card
-                    maxW={'xs'}
-                    h={450}
+                    w={200}
                   >
                     <CardBody>
                       <Box
@@ -174,11 +176,13 @@ export default function EstimulosPage() {
                       </Box>
 
                       <Stack mt='6' spacing='3'>
-                        <Text
-                          noOfLines={4}
+                        <ButtonMotion
+                          colorScheme={'purple'}
+                          whileTap={{ scale: 0.9 }}
+                          whileHover={{ scale: 1.1 }}
                         >
-                          {media.caption}
-                        </Text>
+                          Reproducir
+                        </ButtonMotion>
                       </Stack>
                     </CardBody>
                   </Card>
