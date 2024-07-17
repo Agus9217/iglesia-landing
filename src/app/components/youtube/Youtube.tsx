@@ -1,4 +1,4 @@
-import { Box, Stack } from '@chakra-ui/react';
+import {Box, Card, CardBody, Heading, Stack, CardFooter, Text, Button} from '@chakra-ui/react';
 import React from 'react'
 import useSWR from 'swr';
 import {Welcome} from "@/app/components/youtube/interfaces";
@@ -10,31 +10,54 @@ const URL = `https://www.googleapis.com/youtube/v3/search?key=${API_YOUTUBE}&cha
 console.log(URL)
 
 export default function Youtube() {
-  const { data, isLoading } = useSWR<Welcome | undefined>(URL, fetcher)
+  const {data, isLoading} = useSWR<Welcome | undefined>(URL, fetcher)
 
   const allData = data?.items.slice(0, 4)
-
+  console.log(allData)
   return (
-    <Stack
-      direction={'row'}
-      justifyContent={'center'}
-      w={'100%'}
-    >
-      {
-        allData?.map((video, index) => (
-            <Box
-              as={'iframe'}
-              key={`${video.id.videoId}-${index}`}
-              width={'100%'}
-              height="340"
-              src={`https://www.youtube.com/embed/${video.id.videoId}`}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            >
-          </Box>))
-      }
-    </Stack>
+      <Stack
+          mx={'auto'}
+          w={'70%'}
+      >
+        {
+          allData?.map((video, index) => (
+              <Card
+                  key={`${video.id.videoId}-${index}`}
+                  direction={{base: 'column', sm: 'row'}}
+                  overflow='hidden'
+                  variant='outline'
+              >
+                <Box
+                    as={'iframe'}
+                    maxW={{ base: '100%', sm: '600px' }}
+                    width={'100%'}
+                    height="340"
+                    src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                >
+                </Box>
+
+                <Stack>
+                  <CardBody>
+                    <Heading size='md'>{video.snippet.title}</Heading>
+                    <Text py='2'>
+                      {video.snippet.description}
+                    </Text>
+                  </CardBody>
+
+                  <CardFooter>
+                    <Button variant='solid' colorScheme='blue'>
+                      Buy Latte
+                    </Button>
+                  </CardFooter>
+                </Stack>
+              </Card>
+          ))
+        }
+
+      </Stack>
 
   )
 }
