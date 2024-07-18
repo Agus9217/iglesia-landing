@@ -14,7 +14,7 @@ interface Props {
   h: number | string
 }
 
-export const Carousel = ({ img, alt, w, h, video }: Props) => {
+export const Carousel = ({ img, alt, w, h }: Props) => {
 
   const settings = {
     infinite: true,
